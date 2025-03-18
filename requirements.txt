@@ -1,0 +1,7 @@
+streamlit
+requests
+deep-translator
+textblob
+gtts
+keybert
+sentence-transformers
