@@ -61,8 +61,12 @@ def comparative_analysis(articles):
 
 def search_articles(articles, keyword):
     """Search for articles containing the keyword in title or summary."""
+    if not keyword:
+        return articles  # If no keyword, return all articles
+    
     results = [article for article in articles if keyword.lower() in article.get("description", "").lower()]
     return results
+
 
 
 # ✅ Function to Generate Hindi Speech
