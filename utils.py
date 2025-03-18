@@ -5,8 +5,13 @@ from gtts import gTTS
 import os
 from keybert import KeyBERT
 
-# ✅ Load KeyBERT Model
-kw_model = KeyBERT()
+# ✅ Ensure model is downloaded
+if not os.path.exists("/home/user/.cache/huggingface/hub/models--sentence-transformers--all-MiniLM-L6-v2/"):
+    print("🔄 Downloading KeyBERT model...")
+    SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+# ✅ Load KeyBERT model
+kw_model = KeyBERT("sentence-transformers/all-MiniLM-L6-v2")
 
 # ✅ Set News API Key
 NEWS_API_KEY = "93eea26916b04a068b4f28afaac0607b"
