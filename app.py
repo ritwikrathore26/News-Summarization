@@ -4,7 +4,7 @@ from deep_translator import GoogleTranslator
 from textblob import TextBlob
 from gtts import gTTS
 import os
-from utils import get_news, analyze_sentiment, generate_tts, extract_topics, comparative_analysis
+from utils import get_news, analyze_sentiment, generate_tts, extract_topics, comparative_analysis,search_articles
 import pandas as pd
 import plotly.express as px
 
