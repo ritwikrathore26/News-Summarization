@@ -5,16 +5,28 @@ from gtts import gTTS
 import os
 from keybert import KeyBERT
 
-# ✅ Ensure model is downloaded
-if not os.path.exists("/home/user/.cache/huggingface/hub/models--sentence-transformers--all-MiniLM-L6-v2/"):
-    print("🔄 Downloading KeyBERT model...")
-    SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-
-# ✅ Load KeyBERT model
-kw_model = KeyBERT("sentence-transformers/all-MiniLM-L6-v2")
+from sentence_transformers import SentenceTransformer
 
 # ✅ Set News API Key
 NEWS_API_KEY = "93eea26916b04a068b4f28afaac0607b"
+
+# ✅ Ensure the model is available
+MODEL_PATH = "/home/user/.cache/huggingface/hub/models--sentence-transformers--all-MiniLM-L6-v2/"
+
+if not os.path.exists(MODEL_PATH):
+    print("🔄 Downloading KeyBERT model...")
+    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    model.save(MODEL_PATH)
+
+# ✅ Load KeyBERT with the correct model path
+kw_model = KeyBERT(SentenceTransformer(MODEL_PATH))
+
+def extract_topics(text):
+    """Extracts key topics from text using KeyBERT."""
+    keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words="english", top_n=5)
+    return [kw[0] for kw in keywords]
+
+
 
 # ✅ Function to Fetch News
 def get_news(company):
@@ -36,10 +48,7 @@ def analyze_sentiment(text):
     else:
         return "Neutral"
 
-# ✅ Function to Extract Topics
-def extract_topics(text):
-    keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=5)
-    return [kw[0] for kw in keywords]
+
 
 # ✅ Function to Perform Comparative Analysis
 def comparative_analysis(articles):
